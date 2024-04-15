@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Εμφάνιση Δεδομένων XML</title>
+</head>
+<body>
+
+<h1>Λίστα Δεδομένων από XML</h1>
+<ul id="dataList"></ul>
+
+<script>
+    // Φόρτωση των δεδομένων από το XML αρχείο με χρήση AJAX
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Αποκρυπτογράφηση των δεδομένων XML
+            var xmlDoc = this.responseXML;
+
+            // Επεξεργασία των δεδομένων XML
+            var items = xmlDoc.getElementsByTagName("ITEM");
+
+            // Δημιουργία της λίστας με τα δεδομένα
+            var dataList = document.getElementById("dataList");
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                var title = item.getElementsByTagName("TITLE")[0].childNodes[0].nodeValue;
+                var artist = item.getElementsByTagName("ARTIST")[0].childNodes[0].nodeValue;
+                var year = item.getElementsByTagName("YEAR")[0].childNodes[0].nodeValue;
+                var price = item.getElementsByTagName("PRICE")[0].childNodes[0].nodeValue;
+
+                var listItem = document.createElement("li");
+                listItem.textContent = "Τίτλος: " + title + ", Καλλιτέχνης: " + artist + ", Έτος Δημιουργίας: " + year + ", Τιμή: " + price;
+                dataList.appendChild(listItem);
+            }
+        }
+    };
+    xhttp.open("GET", "file://C:\Users\honor\Downloads\uni\8ο_εξάμηνο\ΠρογραμματισμόςστονΠαγκόσμιοΙστό\videogames.xml", true); // Τοποθεσία του XML αρχείου
+    xhttp.send();
+</script>
+</body>
+</html>
